@@ -1,0 +1,46 @@
+{
+  "name": "trpc-local-link",
+  "version": "0.0.0",
+  "description": "tRPC local link",
+  "author": "Tmk <i@tmk.im>",
+  "keywords": [
+    "tprc",
+    "link"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
+  "scripts": {
+    "prepack": "tsup"
+  },
+  "devDependencies": {
+    "@trpc/client": "11.0.0-rc.382",
+    "@trpc/server": "11.0.0-rc.382",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "@trpc/client": ">=11.0.0",
+    "@trpc/server": ">=11.0.0"
+  },
+  "packageManager": "pnpm@9.1.4",
+  "repository": {
+    "url": "https://github.com/tmkx/trpc-local-link.git"
+  }
+}
