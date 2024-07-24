@@ -1,7 +1,7 @@
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
 import { AnyTRPCRouter, callTRPCProcedure } from '@trpc/server';
 import { observable } from '@trpc/server/observable';
-import type { MaybePromise } from '@trpc/server/unstable-core-do-not-import';
+import { MaybePromise, isAsyncIterable } from '@trpc/server/unstable-core-do-not-import';
 
 export interface LocalLinkOptions<TRouter extends AnyTRPCRouter> {
   router: TRouter;
@@ -29,29 +29,48 @@ export function localLink<TRouter extends AnyTRPCRouter>(opts: TRouter | LocalLi
               input,
             })
           )
-          .then((response) => {
+          .then(async (response) => {
             if (type !== 'subscription') {
               observer.next({ result: { type: 'data', data: response } });
               observer.complete();
             } else {
               observer.next({ context, result: { type: 'started' } });
-              const { unsubscribe } = response.subscribe({
-                next(data: unknown) {
-                  observer.next({ context, result: { type: 'data', data } });
-                },
-                error(err: any) {
-                  observer.error(TRPCClientError.from(err));
-                },
-                complete() {
+
+              if (isAsyncIterable(response)) {
+                try {
+                  ac.signal.addEventListener('abort', () => {
+                    observer.error(TRPCClientError.from(new Error('Aborted')));
+                  });
+                  for await (const chunk of response) {
+                    if (ac.signal.aborted) return;
+                    observer.next({ context, result: { type: 'data', data: chunk } });
+                  }
                   observer.next({ context, result: { type: 'stopped' } });
                   observer.complete();
-                },
-              });
-              ac.signal.addEventListener('abort', unsubscribe);
+                } catch (err: any) {
+                  observer.error(TRPCClientError.from(err));
+                }
+              } else {
+                const { unsubscribe } = response.subscribe({
+                  next(data: unknown) {
+                    observer.next({ context, result: { type: 'data', data } });
+                  },
+                  error(err: any) {
+                    observer.error(TRPCClientError.from(err));
+                  },
+                  complete() {
+                    observer.next({ context, result: { type: 'stopped' } });
+                    observer.complete();
+                  },
+                });
+                ac.signal.addEventListener('abort', unsubscribe);
+              }
             }
           })
           .catch((err) => observer.error(TRPCClientError.from(err)));
-        return () => ac.abort();
+        return () => {
+          ac.abort();
+        };
       });
     };
 }
