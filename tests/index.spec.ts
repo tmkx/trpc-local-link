@@ -109,4 +109,67 @@ describe('subscribe', () => {
     expect(onDataFn).toBeCalledTimes(2);
     expect(onDataFn).toBeCalledWith(0);
   });
+
+  test('async generator', async () => {
+    const client = createClient({
+      greet: procedure.input(schema<{ name: string }>).subscription(async function* ({ input }) {
+        yield 'Hello, ';
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        yield input.name;
+      }),
+    });
+    const { promise, resolve } = withResolvers();
+    const onDataFn = vi.fn();
+    client.greet.subscribe(
+      { name: 'world' },
+      {
+        onData: onDataFn,
+        onComplete: resolve,
+      }
+    );
+    expect(onDataFn).toBeCalledTimes(0);
+
+    await vi.advanceTimersByTimeAsync(500);
+    expect(onDataFn).toBeCalledTimes(1);
+    expect(onDataFn).toBeCalledWith('Hello, ');
+
+    await vi.advanceTimersByTimeAsync(500);
+    await promise;
+    expect(onDataFn).toBeCalledTimes(2);
+    expect(onDataFn).toBeCalledWith('world');
+  });
+
+  test('infinite async generator', async () => {
+    const client = createClient({
+      greet: procedure.input(schema<{ name: string }>).subscription(async function* ({ input }) {
+        while (true) {
+          yield input.name;
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+      }),
+    });
+    const { promise, resolve } = withResolvers();
+    const onDataFn = vi.fn();
+    const { unsubscribe } = client.greet.subscribe(
+      { name: 'world' },
+      {
+        onData: onDataFn,
+        onError: () => resolve(),
+      }
+    );
+    expect(onDataFn).toBeCalledTimes(0);
+
+    await vi.advanceTimersByTimeAsync(500);
+    expect(onDataFn).toBeCalledTimes(1);
+
+    await vi.advanceTimersByTimeAsync(500);
+    expect(onDataFn).toBeCalledTimes(2);
+
+    unsubscribe();
+    await promise;
+    expect(onDataFn).toBeCalledTimes(2);
+
+    for (let i = 0; i < 10; ++i) await vi.advanceTimersByTimeAsync(1000);
+    expect(onDataFn).toBeCalledTimes(2);
+  });
 });
