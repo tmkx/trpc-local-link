@@ -11,17 +11,17 @@ export interface LocalLinkOptions<TRouter extends AnyTRPCRouter> {
 export function localLink<TRouter extends AnyTRPCRouter>(opts: TRouter | LocalLinkOptions<TRouter>): TRPCLink<TRouter> {
   const { router, context: getContext } =
     'router' in opts ? opts : ({ router: opts } satisfies LocalLinkOptions<TRouter>);
-  const { procedures } = router._def;
   return () =>
     ({ op }) => {
-      const { type, path, context, input } = op;
+      const { type, path, context, input, signal } = op;
 
       return observable((observer) => {
         const ac = new AbortController();
         Promise.resolve(getContext ? getContext({ op }) : null)
           .then((customContext) =>
             callTRPCProcedure({
-              procedures,
+              _def: router._def,
+              signal: signal || undefined,
               path,
               getRawInput: () => Promise.resolve(input),
               type,
