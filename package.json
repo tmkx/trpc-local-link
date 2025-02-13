@@ -1,6 +1,6 @@
 {
   "name": "trpc-local-link",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "tRPC local link",
   "author": "Tmk <i@tmk.im>",
   "keywords": [
@@ -32,8 +32,8 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@trpc/client": "11.0.0-rc.748",
-    "@trpc/server": "11.0.0-rc.748",
+    "@trpc/client": "11.0.0-rc.764",
+    "@trpc/server": "11.0.0-rc.764",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"
@@ -42,7 +42,7 @@
     "@trpc/client": ">=11.0.0",
     "@trpc/server": ">=11.0.0"
   },
-  "packageManager": "pnpm@10.2.1",
+  "packageManager": "pnpm@10.3.0",
   "repository": {
     "url": "https://github.com/tmkx/trpc-local-link.git"
   }

@@ -20,7 +20,7 @@ export function localLink<TRouter extends AnyTRPCRouter>(opts: TRouter | LocalLi
         Promise.resolve(getContext ? getContext({ op }) : null)
           .then((customContext) =>
             callTRPCProcedure({
-              _def: router._def,
+              router,
               signal: signal || undefined,
               path,
               getRawInput: () => Promise.resolve(input),

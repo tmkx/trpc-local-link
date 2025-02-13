@@ -9,11 +9,11 @@ importers:
   .:
     devDependencies:
       '@trpc/client':
-        specifier: 11.0.0-rc.748
-        version: 11.0.0-rc.748(@trpc/server@11.0.0-rc.748(typescript@5.7.3))(typescript@5.7.3)
+        specifier: 11.0.0-rc.764
+        version: 11.0.0-rc.764(@trpc/server@11.0.0-rc.764(typescript@5.7.3))(typescript@5.7.3)
       '@trpc/server':
-        specifier: 11.0.0-rc.748
-        version: 11.0.0-rc.748(typescript@5.7.3)
+        specifier: 11.0.0-rc.764
+        version: 11.0.0-rc.764(typescript@5.7.3)
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(postcss@8.5.1)(typescript@5.7.3)(yaml@2.4.2)
@@ -297,14 +297,14 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@trpc/client@11.0.0-rc.748':
-    resolution: {integrity: sha512-n7zTXRFovu4WBC5Xpcjsc9uXsuQDhdboW1XotBF/trvjElZUGiSXUZeqJPxe/CtibgXIb5VSnMRZ5lfpM33HLQ==}
+  '@trpc/client@11.0.0-rc.764':
+    resolution: {integrity: sha512-6NXnOm5c4U3CYqaIzZ9YHqwyEpGj8aMVpY7jvUwvpJjX11n1j52YbwqoeuUpz1JJzYw6g23PFORD4JQanqQntQ==}
     peerDependencies:
-      '@trpc/server': 11.0.0-rc.748+b19e7e9a6
+      '@trpc/server': 11.0.0-rc.764+71c7ccc49
       typescript: '>=5.7.2'
 
-  '@trpc/server@11.0.0-rc.748':
-    resolution: {integrity: sha512-+st99obKEuwZJZ5qvC+21fFI/HJ04uTQW9KBvVDe5LbSxwsB0LbOCOxU4rpRP5b9nzFCEAhbfXPkSBZ3JmEY0g==}
+  '@trpc/server@11.0.0-rc.764':
+    resolution: {integrity: sha512-fwU5Oowk0d7qD4nB29Fv54FGDp2JlxJcRLJUSBmXIYCK66BlwHUcaB6lzrwy6Weqlc9nt+U5j/WsooWcFDam7A==}
     peerDependencies:
       typescript: '>=5.7.2'
 
@@ -974,12 +974,12 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.6':
     optional: true
 
-  '@trpc/client@11.0.0-rc.748(@trpc/server@11.0.0-rc.748(typescript@5.7.3))(typescript@5.7.3)':
+  '@trpc/client@11.0.0-rc.764(@trpc/server@11.0.0-rc.764(typescript@5.7.3))(typescript@5.7.3)':
     dependencies:
-      '@trpc/server': 11.0.0-rc.748(typescript@5.7.3)
+      '@trpc/server': 11.0.0-rc.764(typescript@5.7.3)
       typescript: 5.7.3
 
-  '@trpc/server@11.0.0-rc.748(typescript@5.7.3)':
+  '@trpc/server@11.0.0-rc.764(typescript@5.7.3)':
     dependencies:
       typescript: 5.7.3
 
