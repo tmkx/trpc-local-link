@@ -29,14 +29,14 @@ test('query', async () => {
   const client = createClient({
     greet: procedure.input(schema<{ name: string }>).query(({ input }) => `Hello, ${input.name}`),
   });
-  expect(client.greet.query({ name: 'world' })).resolves.toBe('Hello, world');
+  await expect(client.greet.query({ name: 'world' })).resolves.toBe('Hello, world');
 });
 
 test('mutation', async () => {
   const client = createClient({
     greet: procedure.input(schema<{ name: string }>).mutation(({ input }) => `Hello, ${input.name}`),
   });
-  expect(client.greet.mutate({ name: 'world' })).resolves.toBe('Hello, world');
+  await expect(client.greet.mutate({ name: 'world' })).resolves.toBe('Hello, world');
 });
 
 describe('subscribe', () => {
