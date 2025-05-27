@@ -28,21 +28,21 @@
     }
   },
   "scripts": {
-    "prepack": "tsup",
+    "prepack": "tsdown",
     "test": "vitest"
   },
   "devDependencies": {
-    "@trpc/client": "^11.0.0",
-    "@trpc/server": "^11.0.0",
-    "tsup": "^8.4.0",
-    "typescript": "^5.8.2",
-    "vitest": "^3.0.9"
+    "@trpc/client": "^11.1.3",
+    "@trpc/server": "^11.1.3",
+    "tsdown": "^0.12.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
   },
   "peerDependencies": {
     "@trpc/client": ">=11.0.0",
     "@trpc/server": ">=11.0.0"
   },
-  "packageManager": "pnpm@10.6.5",
+  "packageManager": "pnpm@10.10.0",
   "repository": {
     "url": "https://github.com/tmkx/trpc-local-link.git"
   }
